@@ -3,7 +3,6 @@ import 'package:fluffy_budget/core/router/router.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app.g.dart';
@@ -43,51 +42,6 @@ class MyApp extends ConsumerWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: kDebugMode,
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  static String location = "/home";
-
-  const HomePage({super.key});
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: const Center(
-        child: Text("My app"),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          if(kDebugMode) print("Hello");
-          context.push(Screen2.location);
-        },
-      ),
-    );
-  }
-}
-
-class Screen2 extends StatelessWidget {
-  static String location = "/screen2";
-
-  const Screen2({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: const Center(
-        child: Text("Screen 2"),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.arrow_back_rounded),
-        onPressed: () {
-          context.pop();
-        },
-      ),
     );
   }
 }
