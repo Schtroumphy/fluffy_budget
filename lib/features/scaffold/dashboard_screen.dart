@@ -1,6 +1,4 @@
-import 'package:fluffy_budget/core/theme/app_style.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class DashboardScreen extends StatelessWidget {
   static String location = "/home";
