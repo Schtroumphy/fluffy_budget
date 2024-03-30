@@ -1,9 +1,12 @@
 import 'package:fluffy_budget/common/space.dart';
 import 'package:fluffy_budget/core/theme/app_color.dart';
 import 'package:fluffy_budget/core/theme/app_style.dart';
+import 'package:fluffy_budget/features/dashboard/data/expense_repository.dart';
+import 'package:fluffy_budget/features/dashboard/data/payment_method_repository.dart';
 import 'package:fluffy_budget/widgets/atoms/close_sheet_bar.dart';
 import 'package:fluffy_budget/widgets/atoms/rounded_dropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> displayExpenseModal(BuildContext context) async {
   await showModalBottomSheet(
@@ -47,6 +50,8 @@ class AddExpenseBottomSheet extends StatelessWidget {
 class AmountTextField extends StatefulWidget {
   const AmountTextField({super.key});
 
+  static final FocusNode textFieldFocusNode = FocusNode();
+
   @override
   State<AmountTextField> createState() => _AmountTextFieldState();
 }
@@ -61,12 +66,6 @@ class _AmountTextFieldState extends State<AmountTextField> {
   }
 
   @override
-  void initState() {
-    //textController.value = const TextEditingValue(text: '00.00');
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
     final screenWidth = MediaQuery.of(context).size.width;
@@ -76,6 +75,7 @@ class _AmountTextFieldState extends State<AmountTextField> {
       child: SizedBox(
         width: screenWidth * 0.5,
         child: TextField(
+          focusNode: AmountTextField.textFieldFocusNode,
           controller: textController,
           autofocus: true,
           decoration: const InputDecoration(
@@ -88,24 +88,28 @@ class _AmountTextFieldState extends State<AmountTextField> {
             fontWeight: FontWeight.bold,
           ),
           keyboardType: TextInputType.number,
+          enableInteractiveSelection: false,
+          onSubmitted: (String value) {
+
+          },
         ),
       ),
     );
   }
 }
 
-class DropDownRow extends StatelessWidget {
+class DropDownRow extends ConsumerWidget {
   const DropDownRow({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const Row(
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Flexible(child: RoundedDropdown()),
+        Flexible(child: RoundedDropdown(items: ref.read(expenseRepoProvider).collection,)),
         gapH12,
-        Flexible(child: RoundedDropdown()),
+        Flexible(child: RoundedDropdown(items: ref.read(paymentMethodRepoProvider).collection,)),
       ],
     );
   }
