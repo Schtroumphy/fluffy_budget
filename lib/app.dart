@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'core/theme/app_theme.dart';
+
 part 'app.g.dart';
 
 @Riverpod(keepAlive: true)
@@ -37,10 +39,7 @@ class MyApp extends ConsumerWidget {
     return MaterialApp.router(
       routerConfig: router,
       title: name,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: AppTheme().themeData,
       debugShowCheckedModeBanner: kDebugMode,
     );
   }
