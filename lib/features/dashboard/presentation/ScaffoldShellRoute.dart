@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'expense/expense_bottom_sheet.dart';
 
 import 'bottom_bar_items.dart';
 
@@ -16,7 +17,7 @@ class ShellScaffold extends ConsumerWidget {
     return Scaffold(
       body: body,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () { displayExpenseModal(context); },
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
