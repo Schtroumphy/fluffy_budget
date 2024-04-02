@@ -37,7 +37,18 @@ abstract class Dao<T> {
     return toModels(entities);
   }
 
-  Future<List<T>?> queryFirstItem(String where, List<String> args) async {
+  Future<List<T>?> queryItems({String? where, List<String>? args}) async {
+    final entities = await withDatabase(
+          (db) => db.query(
+        tableName,
+        where: where,
+        whereArgs: args,
+      ),
+    );
+    return toModels(entities);
+  }
+
+  Future<T?> queryFirstItem(String where, List<String> args) async {
     final entities = await withDatabase(
       (db) => db.query(
         tableName,
@@ -46,7 +57,11 @@ abstract class Dao<T> {
         limit: 1,
       ),
     );
-    return toModels(entities);
+    final res = entities.firstOrNull;
+
+    if(res == null) return null;
+
+    return toModel(res);
   }
 
   /* ----------- SAVING / UPDATING ----------- */

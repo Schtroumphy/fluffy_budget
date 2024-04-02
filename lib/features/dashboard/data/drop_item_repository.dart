@@ -3,18 +3,18 @@ import 'package:fluffy_budget/features/dashboard/domain/drop_down_item.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'expense_repository.g.dart';
+part 'drop_item_repository.g.dart';
 
 @Riverpod(keepAlive: true)
-ExpenseRepository expenseRepo(ExpenseRepoRef ref){
-  return ExpenseRepository(ref, ExpenseCategory.items);
+DropItemRepository dropItemRepo(DropItemRepoRef ref){
+  return DropItemRepository(ref, ExpenseCategory.items);
 }
 
-class ExpenseRepository {
+class DropItemRepository {
   final Set<DropDownItem> items;
   final Ref ref;
 
-  const ExpenseRepository(this.ref, this.items);
+  const DropItemRepository(this.ref, this.items);
 
   Set<DropDownItem> get collection => items;
 
@@ -32,5 +32,9 @@ class ExpenseRepository {
 
   initExpenseCategoryData() async {
     await ref.read(dropDownDaoProvider).saveAll(ExpenseCategory.items);
+  }
+
+  Future<List<DropDownItem>?> getItemsByType(ItemType type) async {
+    return (await ref.read(dropDownDaoProvider).queryItems(where: "type = ?", args: [type.code]));
   }
 }

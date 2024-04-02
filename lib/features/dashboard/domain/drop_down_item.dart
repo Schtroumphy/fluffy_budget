@@ -25,12 +25,13 @@ class DropDownItem {
 }
 
 enum ItemType {
-  paymentMethod("PAY_MET"),
-  expenseCategory("EXP_CAT");
+  paymentMethod("PAY_MET", "Paiement"),
+  expenseCategory("EXP_CAT", "Catégorie");
 
-  const ItemType(this.code);
+  const ItemType(this.code, this.description);
 
   final String code;
+  final String description;
 }
 
 enum PaymentMethod {

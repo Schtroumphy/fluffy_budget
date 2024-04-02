@@ -2,40 +2,39 @@ import 'package:fluffy_budget/common/space.dart';
 import 'package:fluffy_budget/core/theme/app_color.dart';
 import 'package:fluffy_budget/core/theme/app_style.dart';
 import 'package:fluffy_budget/core/theme/app_theme.dart';
+import 'package:fluffy_budget/features/dashboard/application/drop_down_item_provider.dart';
 import 'package:fluffy_budget/features/dashboard/domain/drop_down_item.dart';
 import 'package:fluffy_budget/features/dashboard/presentation/expense/expense_bottom_sheet.dart';
+import 'package:fluffy_budget/widgets/async_value_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RoundedDropdown extends StatefulWidget {
+class RoundedDropdown extends ConsumerStatefulWidget {
   const RoundedDropdown({
     super.key,
-    required this.items,
+    required this.itemType,
   });
 
-  final Set<DropDownItem> items;
+  final ItemType itemType;
 
   @override
-  State<RoundedDropdown> createState() => _RoundedDropdownState();
+  ConsumerState<RoundedDropdown> createState() => _RoundedDropdownState();
 }
 
-class _RoundedDropdownState extends State<RoundedDropdown> {
-  late DropDownItem? _dropdownValue;
-
-  @override
-  void initState() {
-    super.initState();
-    _dropdownValue = widget.items.first;
-  }
+class _RoundedDropdownState extends ConsumerState<RoundedDropdown> {
+  DropDownItem? _dropdownValue;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return DropdownButtonHideUnderline(
+    final itemsAsyncValue = ref.watch(itemsByTypeProvider(widget.itemType));
+
+    return AsyncValueWidget(value: itemsAsyncValue, data: (items) => DropdownButtonHideUnderline(
       child: InputDecorator(
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(Insets.i24),
-            borderSide: BorderSide(width: 1, color: _dropdownValue!.color!),
+            borderSide: BorderSide(width: 1, color: _dropdownValue?.color ?? Colors.grey.withOpacity(0.4)),
           ),
           filled: true,
           fillColor: _dropdownValue?.color?.withOpacity(0.8),
@@ -43,14 +42,15 @@ class _RoundedDropdownState extends State<RoundedDropdown> {
         child: DropdownButton(
           style: theme.textTheme.labelMedium,
           autofocus: false,
+          hint: Text(widget.itemType.description),
           icon: const Icon(Icons.keyboard_arrow_down_rounded),
           padding: const EdgeInsets.all(8),
           isExpanded: true,
           isDense: true,
-          iconEnabledColor: AppColor.black,
+          iconEnabledColor: AppColor.black.withOpacity(0.5),
           elevation: Insets.i8.toInt(),
           borderRadius: BorderRadius.circular(Insets.i24),
-          dropdownColor: _dropdownValue!.color,
+          dropdownColor: _dropdownValue?.color,
           value: _dropdownValue,
           onChanged: (DropDownItem? newValue) {
             setState(() {
@@ -58,14 +58,14 @@ class _RoundedDropdownState extends State<RoundedDropdown> {
             });
             FocusScope.of(context).requestFocus(AmountTextField.textFieldFocusNode);
           },
-          items: _buildItems(),
+          items: _buildItems(items),
         ),
       ),
-    );
+    ));
   }
 
-  List<DropdownMenuItem<DropDownItem>>? _buildItems() {
-    return widget.items.map<DropdownMenuItem<DropDownItem>>((item) {
+  List<DropdownMenuItem<DropDownItem>>? _buildItems(List<DropDownItem>? items) {
+    return items?.map<DropdownMenuItem<DropDownItem>>((item) {
       return DropdownMenuItem<DropDownItem>(
         value: item,
         alignment: Alignment.center,

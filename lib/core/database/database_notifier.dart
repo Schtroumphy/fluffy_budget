@@ -60,8 +60,8 @@ class DatabaseNotifier extends _$DatabaseNotifier {
         CREATE TABLE drop_down_item (
           id             INTEGER PRIMARY KEY AUTOINCREMENT,
           label          TEXT,
-          icon           TEXT,
-          color          TEXT,
+          icon           INT,
+          color          INT,
           type           TEXT
         )
     ''');
