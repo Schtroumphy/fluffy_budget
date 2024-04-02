@@ -1,4 +1,5 @@
 import 'package:fluffy_budget/core/environment.dart';
+import 'package:fluffy_budget/core/init_app.dart';
 import 'package:fluffy_budget/core/router/router.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +14,15 @@ part 'app.g.dart';
 Environment environment(EnvironmentRef ref) => throw UnimplementedError("Environment provider must be overridden");
 
 launchApp(Environment environment) {
+  WidgetsFlutterBinding.ensureInitialized();
+
   final container = ProviderContainer(
     overrides: [
       environmentProvider.overrideWithValue(environment),
     ],
   );
+
+  AppInit.setupData(container);
 
   runApp(
     UncontrolledProviderScope(

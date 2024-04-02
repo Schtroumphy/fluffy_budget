@@ -1,12 +1,36 @@
+import 'package:fluffy_budget/core/converters/color_converter.dart';
+import 'package:fluffy_budget/core/converters/icon_data_converter.dart';
 import 'package:fluffy_budget/core/theme/app_color.dart';
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'drop_down_item.g.dart';
+
+@JsonSerializable()
 class DropDownItem {
+  final int? id;
   final String label;
+  @IconDataConverter()
   final IconData icon;
+  @ColorConverter()
   final Color? color;
+  final String type;
 
-  const DropDownItem({required this.label, required this.icon, this.color});
+  const DropDownItem({this.id, required this.label, required this.icon, this.color, required this.type});
+
+  factory DropDownItem.fromJson(Map<String, dynamic> json) => _$DropDownItemFromJson(json);
+
+  /// Connect the generated [_$PersonToJson] function to the `toJson` method.
+  Map<String, dynamic> toJson() => _$DropDownItemToJson(this);
+}
+
+enum ItemType {
+  paymentMethod("PAY_MET"),
+  expenseCategory("EXP_CAT");
+
+  const ItemType(this.code);
+
+  final String code;
 }
 
 enum PaymentMethod {
@@ -22,7 +46,7 @@ enum PaymentMethod {
 
   const PaymentMethod({required this.label, required this.icon, this.color});
 
-  static Set<DropDownItem> get items => values.map((e) => DropDownItem(label: e.label, icon: e.icon, color: e.color)).toSet();
+  static Set<DropDownItem> get items => values.map((e) => DropDownItem(label: e.label, icon: e.icon, color: e.color, type: ItemType.paymentMethod.code)).toSet();
 }
 
 enum ExpenseCategory {
@@ -38,5 +62,5 @@ enum ExpenseCategory {
 
   const ExpenseCategory({required this.label, required this.icon, this.color});
 
-  static Set<DropDownItem> get items => values.map((e) => DropDownItem(label: e.label, icon: e.icon, color: e.color)).toSet();
+  static Set<DropDownItem> get items => values.map((e) => DropDownItem(label: e.label, icon: e.icon, color: e.color, type: ItemType.expenseCategory.code)).toSet();
 }
