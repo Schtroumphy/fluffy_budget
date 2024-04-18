@@ -21,3 +21,11 @@ samples, guidance on mobile development, and a full API reference.
 - Display info in database in dashboard
 - Add linter (riverpod, dart)
 - Save expense in database
+- Add fastlane to automatize 
+
+
+## Some commands
+
+```Create Android app bundle
+$ flutter build appbundle --flavor dev -t lib/main_dev.dart 
+```

@@ -1,5 +1,5 @@
 import 'package:fluffy_budget/features/budget/budget_screen.dart';
-import 'package:fluffy_budget/features/scaffold/dashboard_screen.dart';
+import 'package:fluffy_budget/features/expense/presentation/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

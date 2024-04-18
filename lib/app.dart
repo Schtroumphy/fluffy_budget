@@ -1,6 +1,6 @@
 import 'package:fluffy_budget/core/environment.dart';
-import 'package:fluffy_budget/core/init_app.dart';
 import 'package:fluffy_budget/core/router/router.dart';
+import 'package:fluffy_budget/features/startup/app_startup_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,8 +22,6 @@ launchApp(Environment environment) {
     ],
   );
 
-  AppInit.setupData(container);
-
   runApp(
     UncontrolledProviderScope(
       container: container,
@@ -35,7 +33,6 @@ launchApp(Environment environment) {
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final name = ref.read(environmentProvider).appName;

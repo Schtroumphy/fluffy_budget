@@ -88,7 +88,7 @@ abstract class Dao<T> {
     /* EXPECTED 'INSERT INTO Test(name, value, num) VALUES (?, ?, ?), (?, ?, ?) ...' */
 
     await withDatabase((db) async {
-      final batch = await db.batch();
+      final batch = db.batch();
       batch.execute(sql, fieldExpand);
       await batch.commit(noResult: true);
     });
@@ -100,7 +100,7 @@ abstract class Dao<T> {
 
     if (where != null) sql += ' WHERE $where';
 
-    final count = (await Sqflite.firstIntValue(await withDatabase((db) => db.rawQuery(sql, args != null ? args : []))));
+    final count = (Sqflite.firstIntValue(await withDatabase((db) => db.rawQuery(sql, args ?? []))));
 
     return  count == 0;
   }

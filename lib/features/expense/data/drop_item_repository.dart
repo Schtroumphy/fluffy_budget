@@ -1,5 +1,5 @@
-import 'package:fluffy_budget/features/dashboard/data/local/drop_down_dao.dart';
-import 'package:fluffy_budget/features/dashboard/domain/drop_down_item.dart';
+import 'package:fluffy_budget/features/expense/data/local/drop_down_dao.dart';
+import 'package:fluffy_budget/features/expense/domain/drop_down_item.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

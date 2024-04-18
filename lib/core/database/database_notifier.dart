@@ -9,7 +9,7 @@ part 'database_notifier.g.dart';
 class DatabaseNotifier extends _$DatabaseNotifier {
   static const defaultPath = 'fluffy_budget.db';
   static const versionKey = 'versionKey';
-  static const version = 1;
+  static const version = 2;
 
   DatabaseNotifier([this._path = defaultPath]);
 
@@ -56,6 +56,9 @@ class DatabaseNotifier extends _$DatabaseNotifier {
 
 
   Future<void> migrate(Database db, int oldVersion, int newVersion) async {
+    await db.execute(''' 
+     DROP TABLE IF EXISTS drop_down_item
+    ''');
     await db.execute('''
         CREATE TABLE drop_down_item (
           id             INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -63,6 +66,18 @@ class DatabaseNotifier extends _$DatabaseNotifier {
           icon           INT,
           color          INT,
           type           TEXT
+        )
+    ''');
+
+    await db.execute(''' 
+     DROP TABLE IF EXISTS expense
+    ''');
+    await db.execute('''
+        CREATE TABLE expense (
+          id              INTEGER PRIMARY KEY AUTOINCREMENT,
+          amount          TEXT,
+          paymentMethodId INTEGER,
+          categoryId      INTEGER
         )
     ''');
   }
