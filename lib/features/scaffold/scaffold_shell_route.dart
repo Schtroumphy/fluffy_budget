@@ -1,9 +1,8 @@
+import 'package:fluffy_budget/features/bottom_bar/bottom_bar_items.dart';
 import 'package:fluffy_budget/features/expense/presentation/expense_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import 'bottom_bar_items.dart';
 
 class ShellScaffold extends ConsumerWidget {
   const ShellScaffold({super.key, required this.items, required this.body});

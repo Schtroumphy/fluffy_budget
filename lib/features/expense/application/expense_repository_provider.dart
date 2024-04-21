@@ -3,9 +3,9 @@ import 'package:fluffy_budget/features/expense/domain/expense.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'expense_repository.g.dart';
+part 'expense_repository_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 ExpenseRepository expenseRepo(ExpenseRepoRef ref){
   return ExpenseRepository(ref);
 }
