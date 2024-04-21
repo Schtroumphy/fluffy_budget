@@ -2,9 +2,9 @@ import 'package:fluffy_budget/common/space.dart';
 import 'package:fluffy_budget/core/theme/app_color.dart';
 import 'package:fluffy_budget/core/theme/app_style.dart';
 import 'package:fluffy_budget/core/theme/app_theme.dart';
-import 'package:fluffy_budget/features/dashboard/application/drop_down_item_provider.dart';
 import 'package:fluffy_budget/features/dashboard/domain/drop_down_item.dart';
-import 'package:fluffy_budget/features/dashboard/presentation/expense/expense_bottom_sheet.dart';
+import 'package:fluffy_budget/features/expense/controllers/add_expense_controller.dart';
+import 'package:fluffy_budget/features/expense/presentation/expense_bottom_sheet.dart';
 import 'package:fluffy_budget/widgets/async_value_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,10 +12,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class RoundedDropdown extends ConsumerStatefulWidget {
   const RoundedDropdown({
     super.key,
-    required this.itemType,
+    required this.itemType, this.onSelected,
   });
 
   final ItemType itemType;
+  final Function(int)? onSelected;
 
   @override
   ConsumerState<RoundedDropdown> createState() => _RoundedDropdownState();
@@ -55,6 +56,7 @@ class _RoundedDropdownState extends ConsumerState<RoundedDropdown> {
           onChanged: (DropDownItem? newValue) {
             setState(() {
               _dropdownValue = newValue;
+              widget.onSelected?.call(newValue?.id ?? 0);
             });
             FocusScope.of(context).requestFocus(AmountTextField.textFieldFocusNode);
           },
