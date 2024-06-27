@@ -1,5 +1,5 @@
-import 'package:fluffy_budget/core/converters/color_converter.dart';
-import 'package:fluffy_budget/core/converters/icon_data_converter.dart';
+import 'package:fluffy_budget/core/database/converters/color_converter.dart';
+import 'package:fluffy_budget/core/database/converters/icon_data_converter.dart';
 import 'package:fluffy_budget/core/theme/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';

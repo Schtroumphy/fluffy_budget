@@ -1,6 +1,6 @@
 import 'package:fluffy_budget/core/extensions/object_extension.dart';
-import 'package:fluffy_budget/features/expense/application/expense_repository_provider.dart';
-import 'package:fluffy_budget/features/expense/domain/expense.dart';
+import 'package:fluffy_budget/features/expenses/data/expense_repository_provider.dart';
+import 'package:fluffy_budget/features/expenses/domain/expense.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'add_expense_controller.g.dart';

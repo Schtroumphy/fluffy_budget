@@ -1,5 +1,5 @@
-import 'package:fluffy_budget/features/expense/data/local/expense_dao.dart';
-import 'package:fluffy_budget/features/expense/domain/expense.dart';
+import 'package:fluffy_budget/features/expenses/data/local/expense_dao.dart';
+import 'package:fluffy_budget/features/expenses/domain/expense.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -20,6 +20,7 @@ class ExpenseRepository {
   }
 
   Future<List<Expense>?> getAllExpenses() async {
-    return await ref.watch(expenseDaoProvider).getAll();
+    final expenseDao = ref.read(expenseDaoProvider);
+    return expenseDao.getAll();
   }
 }

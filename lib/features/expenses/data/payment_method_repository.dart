@@ -1,4 +1,4 @@
-import 'package:fluffy_budget/features/expense/domain/drop_down_item.dart';
+import 'package:fluffy_budget/features/expenses/domain/drop_down_item.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'payment_method_repository.g.dart';

@@ -1,17 +1,11 @@
 import 'package:fluffy_budget/core/environment.dart';
 import 'package:fluffy_budget/core/init_app.dart';
-import 'package:fluffy_budget/core/router/router.dart';
+import 'package:fluffy_budget/router/router.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'core/theme/app_theme.dart';
-
-part 'app.g.dart';
-
-@Riverpod(keepAlive: true)
-Environment environment(EnvironmentRef ref) => throw UnimplementedError("Environment provider must be overridden");
 
 launchApp(Environment environment) {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +21,9 @@ launchApp(Environment environment) {
   runApp(
     UncontrolledProviderScope(
       container: container,
-      child: const MyApp(),
+      child: const MaterialApp(
+        home: MyApp(),
+      ),
     ),
   );
 }

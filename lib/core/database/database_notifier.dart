@@ -1,4 +1,4 @@
-import 'package:fluffy_budget/common/exceptions/database_exception.dart';
+import 'package:fluffy_budget/core/exceptions/database_exception.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
@@ -9,7 +9,7 @@ part 'database_notifier.g.dart';
 class DatabaseNotifier extends _$DatabaseNotifier {
   static const defaultPath = 'fluffy_budget.db';
   static const versionKey = 'versionKey';
-  static const version = 2;
+  static const version = 3;
 
   DatabaseNotifier([this._path = defaultPath]);
 
@@ -75,7 +75,7 @@ class DatabaseNotifier extends _$DatabaseNotifier {
     await db.execute('''
         CREATE TABLE expense (
           id              INTEGER PRIMARY KEY AUTOINCREMENT,
-          amount          TEXT,
+          amount          REAL,
           paymentId       INTEGER,
           categoryId      INTEGER
         )

@@ -1,8 +1,8 @@
 import 'package:fluffy_budget/core/extensions/build_context_extensions.dart';
-import 'package:fluffy_budget/features/bottom_bar/bottom_bar_items.dart';
 import 'package:fluffy_budget/features/budget/budget_screen.dart';
-import 'package:fluffy_budget/features/scaffold/scaffold_shell_route.dart';
-import 'package:fluffy_budget/features/scaffold/dashboard_screen.dart';
+import 'package:fluffy_budget/router/bottom_bar/bottom_bar_items.dart';
+import 'package:fluffy_budget/router/scaffold_shell_route.dart';
+import 'package:fluffy_budget/features/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
