@@ -85,7 +85,7 @@ class _ExpendableBottomSheetState extends ConsumerState<ExpendableBottomSheet> {
                   expenses.when(
                     data: (data) => SliverList(
                       delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
+                        (BuildContext context, int index) {
                           if (data == null || data.isEmpty) {
                             return const SizedBox.shrink();
                           }
@@ -94,19 +94,8 @@ class _ExpendableBottomSheetState extends ConsumerState<ExpendableBottomSheet> {
                         childCount: data?.length ?? 0,
                       ),
                     ),
-                    error: (e, s) => const SliverToBoxAdapter(
-                        child: SizedBox.shrink()),
-                    loading: () => const SliverToBoxAdapter(
-                        child: CircularProgressIndicator()),
-                  ),
-                  SliverList(
-                    delegate: SliverChildListDelegate(
-                      const [
-                        Text('Content'),
-                        Text('Content2'),
-                        Text('Content3'),
-                      ],
-                    ),
+                    error: (e, s) => const SliverToBoxAdapter(child: SizedBox.shrink()),
+                    loading: () => const SliverToBoxAdapter(child: CircularProgressIndicator()),
                   ),
                 ],
               ),

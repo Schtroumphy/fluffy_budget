@@ -3,7 +3,7 @@ import 'package:fluffy_budget/features/expenses/domain/expense.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'expense_repository_provider.g.dart';
+part 'expense_repository.g.dart';
 
 @riverpod
 ExpenseRepository expenseRepo(ExpenseRepoRef ref){
@@ -15,12 +15,12 @@ class ExpenseRepository {
 
   const ExpenseRepository(this.ref);
 
-  Future<void> saveExpense(Expense expense) async {
+  Future<void> save(Expense expense) async {
     return await ref.read(expenseDaoProvider).save(expense);
   }
 
-  Future<List<Expense>?> getAllExpenses() async {
+  Future<List<Expense>?> getAll() async {
     final expenseDao = ref.read(expenseDaoProvider);
-    return expenseDao.getAll();
+    return (await expenseDao.getAll());
   }
 }

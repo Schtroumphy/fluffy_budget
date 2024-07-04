@@ -20,8 +20,7 @@ $ fvm flutter run -t lib/main_dev.dart --flavor dev
 ```
 
 ## TODO 
-- Add localizations to centralized all strings
-- Add sqflite database to hold data
-- Display info in database in dashboard
+- Add constant file to centralized all strings
 - Add linter (riverpod, dart)
-- Save expense in database
+- Create ExpenseModel to retrieve Category as object to have info like color & icon thanks to join table with sql request 
+- Display expense with icon/color of category

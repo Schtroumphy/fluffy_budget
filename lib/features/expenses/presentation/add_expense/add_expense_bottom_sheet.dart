@@ -1,8 +1,8 @@
 import 'package:fluffy_budget/features/expenses/presentation/add_expense/add_expense_controller.dart';
+import 'package:fluffy_budget/widgets/async_value_widget.dart';
 import 'package:fluffy_budget/widgets/space.dart';
 import 'package:fluffy_budget/core/theme/app_color.dart';
 import 'package:fluffy_budget/core/theme/app_style.dart';
-import 'package:fluffy_budget/features/expenses/domain/drop_down_item.dart';
 import 'package:fluffy_budget/widgets/atoms/close_sheet_bar.dart';
 import 'package:fluffy_budget/widgets/atoms/rounded_dropdown.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +57,7 @@ class AddExpenseBottomSheet extends ConsumerWidget {
     }
     controller.onAmountSubmitted(amountParsed);
 
-    if(!context.mounted) return;
+    if (!context.mounted) return;
 
     Navigator.of(context).pop();
   }
@@ -122,14 +122,34 @@ class DropDownRow extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final asyncCategories = ref.watch(categoriesProvider);
+    final asyncPaymentMethods = ref.watch(paymentMethodsProvider);
+
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Flexible(child: RoundedDropdown(itemType: ItemType.expenseCategory, onSelected: (id) => onCategorySelected?.call(id))),
+        AsyncValueWidget(
+            value: asyncCategories,
+            data: (categories) {
+              return Flexible(
+                  child: RoundedDropdown(
+                items: categories ?? [],
+                onSelected: (id) => onCategorySelected?.call(id),
+                description: 'Category',
+              ));
+            }),
         gapH12,
-        Flexible(child: RoundedDropdown(itemType: ItemType.paymentMethod, onSelected: (id) => onPaymentSelected?.call(id))),
-      ],
+        AsyncValueWidget(
+            value: asyncPaymentMethods,
+            data: (methods) {
+              return Flexible(
+                  child: RoundedDropdown(
+                    items: methods ?? [],
+                    onSelected: (id) => onPaymentSelected?.call(id),
+                    description: 'Payment Methods',
+                  ));
+            }),],
     );
   }
 }

@@ -1,21 +1,22 @@
-import 'package:fluffy_budget/features/expenses/domain/drop_down_item.dart';
-import 'package:fluffy_budget/features/expenses/presentation/controllers/items_by_type_provider.dart';
+import 'package:fluffy_budget/features/expenses/domain/expense_property.dart';
 import 'package:fluffy_budget/widgets/space.dart';
 import 'package:fluffy_budget/core/theme/app_color.dart';
 import 'package:fluffy_budget/core/theme/app_style.dart';
 import 'package:fluffy_budget/core/theme/app_theme.dart';
 import 'package:fluffy_budget/features/expenses/presentation/add_expense/add_expense_bottom_sheet.dart';
-import 'package:fluffy_budget/widgets/async_value_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RoundedDropdown extends ConsumerStatefulWidget {
   const RoundedDropdown({
     super.key,
-    required this.itemType, this.onSelected,
+    required this.description,
+    required this.items,
+    this.onSelected,
   });
 
-  final ItemType itemType;
+  final String description;
+  final List<ExpenseProperty> items;
   final Function(int)? onSelected;
 
   @override
@@ -23,14 +24,13 @@ class RoundedDropdown extends ConsumerStatefulWidget {
 }
 
 class _RoundedDropdownState extends ConsumerState<RoundedDropdown> {
-  DropDownItem? _dropdownValue;
+  ExpenseProperty? _dropdownValue;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final itemsAsyncValue = ref.watch(itemsByTypeProvider(widget.itemType));
 
-    return AsyncValueWidget(value: itemsAsyncValue, data: (items) => DropdownButtonHideUnderline(
+    return DropdownButtonHideUnderline(
       child: InputDecorator(
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
@@ -43,7 +43,7 @@ class _RoundedDropdownState extends ConsumerState<RoundedDropdown> {
         child: DropdownButton(
           style: theme.textTheme.labelMedium,
           autofocus: false,
-          hint: Text(widget.itemType.description),
+          hint: Text(widget.description),
           icon: const Icon(Icons.keyboard_arrow_down_rounded),
           padding: const EdgeInsets.all(8),
           isExpanded: true,
@@ -53,22 +53,22 @@ class _RoundedDropdownState extends ConsumerState<RoundedDropdown> {
           borderRadius: BorderRadius.circular(Insets.i24),
           dropdownColor: _dropdownValue?.color,
           value: _dropdownValue,
-          onChanged: (DropDownItem? newValue) {
+          onChanged: (ExpenseProperty? newValue) {
             setState(() {
               _dropdownValue = newValue;
               widget.onSelected?.call(newValue?.id ?? 0);
             });
             FocusScope.of(context).requestFocus(AmountTextField.textFieldFocusNode);
           },
-          items: _buildItems(items),
+          items: _buildItems(widget.items),
         ),
       ),
-    ));
+    );
   }
 
-  List<DropdownMenuItem<DropDownItem>>? _buildItems(List<DropDownItem>? items) {
-    return items?.map<DropdownMenuItem<DropDownItem>>((item) {
-      return DropdownMenuItem<DropDownItem>(
+  List<DropdownMenuItem<ExpenseProperty>>? _buildItems(List<ExpenseProperty>? items) {
+    return items?.map<DropdownMenuItem<ExpenseProperty>>((item) {
+      return DropdownMenuItem<ExpenseProperty>(
         value: item,
         alignment: Alignment.center,
         child: Row(
