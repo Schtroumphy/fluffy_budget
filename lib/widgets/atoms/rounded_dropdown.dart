@@ -10,11 +10,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class RoundedDropdown extends ConsumerStatefulWidget {
   const RoundedDropdown({
     super.key,
+    this.initialValue,
     required this.description,
     required this.items,
     this.onSelected,
   });
 
+  final ExpenseProperty? initialValue;
   final String description;
   final List<ExpenseProperty> items;
   final Function(int)? onSelected;
@@ -25,6 +27,12 @@ class RoundedDropdown extends ConsumerStatefulWidget {
 
 class _RoundedDropdownState extends ConsumerState<RoundedDropdown> {
   ExpenseProperty? _dropdownValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _dropdownValue= widget.initialValue;
+  }
 
   @override
   Widget build(BuildContext context) {

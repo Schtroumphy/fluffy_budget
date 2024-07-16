@@ -4,60 +4,65 @@ import 'package:fluffy_budget/features/expenses/domain/category.dart';
 import 'package:fluffy_budget/features/expenses/domain/payment_method.dart';
 import 'package:flutter/material.dart';
 
-const Set<Category> expenseCategories = {
-  Category(
+class StringConstants {
+
+  static const noDescription = "No description";
+  static const lastTransactions ="Dernières transactions";
+
+}
+
+Set<Category> expenseCategories = {
+  const Category(
     label: "Courses",
     icon: Icons.shopping_basket_rounded,
     color: AppColor.yellow,
   ),
-  Category(
+  const Category(
     label: "Loisirs",
     icon: Icons.local_attraction,
     color: AppColor.purple,
   ),
-  Category(
+  const Category(
     label: "Restaurants",
     icon: Icons.restaurant,
     color: AppColor.blue,
   ),
-  Category(
+  const Category(
     label: "Voiture",
     icon: Icons.car_crash_sharp,
     color: AppColor.green,
   ),
-  Category(
+  const Category(
     label: "Autres",
     icon: Icons.question_mark,
     color: AppColor.purple,
   ),
 };
 
-const Set<PaymentMethod> paymentMethods = {
-  PaymentMethod(
+Set<PaymentMethod> paymentMethods = {
+  const PaymentMethod(
     label: "Cash",
     icon: Icons.attach_money_rounded,
     color: AppColor.yellow,
   ),
-  PaymentMethod(
+  const PaymentMethod(
     label: "Credit card",
     icon: Icons.credit_card_rounded,
     color: AppColor.purple,
   ),
-  PaymentMethod(
+  const PaymentMethod(
     label: "Lydia",
     icon: Icons.phone_iphone,
     color: AppColor.blue,
   ),
-  PaymentMethod(
+  const PaymentMethod(
     label: "Paypal",
     icon: Icons.paypal_rounded,
     color: AppColor.green,
   ),
-  PaymentMethod(
+  const PaymentMethod(
     label: "Other",
     icon: Icons.shopping_basket_rounded,
     color: AppColor.purple,
   ),
 };
-
-const noDescription = "No description";

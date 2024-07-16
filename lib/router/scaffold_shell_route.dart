@@ -1,5 +1,6 @@
 import 'package:fluffy_budget/features/expenses/presentation/add_expense/add_expense_bottom_sheet.dart';
 import 'package:fluffy_budget/router/bottom_bar/bottom_bar_items.dart';
+import 'package:fluffy_budget/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -12,12 +13,18 @@ class ShellScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final displayFabButton = ref.watch(displayFabButtonNotifierProvider);
+
     return Scaffold(
       body: body,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () { displayExpenseModal(context); },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: displayFabButton
+          ? FloatingActionButton(
+              onPressed: () {
+                displayAddExpenseModal(context);
+              },
+              child: const Icon(Icons.add),
+            )
+          : const SizedBox.shrink(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AppBottomBar(
         items: items,

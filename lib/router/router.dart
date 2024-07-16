@@ -11,6 +11,17 @@ part 'router.g.dart';
 
 final _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shell');
 
+@riverpod
+class DisplayFabButtonNotifier extends _$DisplayFabButtonNotifier {
+
+  @override
+  bool build() {
+    return true;
+  }
+
+  void hideFab() => state = false;
+}
+
 @Riverpod(keepAlive: true)
 GoRouter goRouter(GoRouterRef ref) {
   return _router;

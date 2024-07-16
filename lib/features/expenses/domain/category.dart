@@ -8,19 +8,12 @@ part 'category.g.dart';
 
 @JsonSerializable()
 class Category extends ExpenseProperty{
-  final int? id;
-  final String label;
-  @IconDataConverter()
-  final IconData icon;
-  @ColorConverter()
-  final Color? color;
-
   const Category({
-    this.id,
-    required this.label,
-    required this.icon,
-    this.color,
-  }): super(label: label, icon: icon, color: color);
+    super.id,
+    required super.label,
+    required super.icon,
+    super.color,
+  });
 
   @override
   PropertyType get type => PropertyType.category;

@@ -1,4 +1,8 @@
+import 'package:fluffy_budget/features/expenses/domain/category.dart';
+import 'package:fluffy_budget/features/expenses/domain/expense.dart';
+import 'package:fluffy_budget/features/expenses/domain/payment_method.dart';
 import 'package:fluffy_budget/features/expenses/presentation/add_expense/add_expense_controller.dart';
+import 'package:fluffy_budget/router/router.dart';
 import 'package:fluffy_budget/widgets/async_value_widget.dart';
 import 'package:fluffy_budget/widgets/space.dart';
 import 'package:fluffy_budget/core/theme/app_color.dart';
@@ -8,17 +12,24 @@ import 'package:fluffy_budget/widgets/atoms/rounded_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-Future<void> displayExpenseModal(BuildContext context) async {
+Future<void> displayAddExpenseModal(BuildContext context, {ExpenseModel? expense, WidgetRef? ref}) async {
   await showModalBottomSheet(
     context: context,
     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(40.0))),
     isDismissible: true,
-    builder: (context) => const AddExpenseBottomSheet(),
-  );
+    builder: (context) => AddExpenseBottomSheet(expense: expense),
+  ).then((value) async {
+    if (value == null) {
+      // Modal closed by clicking outside
+      ref?.invalidate(displayFabButtonNotifierProvider);
+    }
+  });
 }
 
 class AddExpenseBottomSheet extends ConsumerWidget {
-  const AddExpenseBottomSheet({super.key});
+  const AddExpenseBottomSheet({super.key, this.expense});
+
+  final ExpenseModel? expense;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,7 +45,9 @@ class AddExpenseBottomSheet extends ConsumerWidget {
             const CloseSheetBar(),
             gapV12,
             DropDownRow(
+              initialCategory: expense?.category,
               onCategorySelected: (id) => controller.onCategorySelected(id),
+              initialPaymentMethod: expense?.paymentMethod,
               onPaymentSelected: (id) => controller.onPaymentMethodSelected(id),
             ),
             gapV12,
@@ -43,7 +56,7 @@ class AddExpenseBottomSheet extends ConsumerWidget {
               style: theme.labelMedium?.copyWith(color: AppColor.black[40], fontStyle: FontStyle.italic),
             ),
             gapV12,
-            AmountTextField(onSubmit: (amount) => _onSubmit(amount, controller, context)),
+            AmountTextField(initialValue: expense?.amount, onSubmit: (amount) => _onSubmit(amount, controller, context)),
           ],
         ),
       ),
@@ -64,9 +77,11 @@ class AddExpenseBottomSheet extends ConsumerWidget {
 }
 
 class AmountTextField extends ConsumerStatefulWidget {
-  const AmountTextField({super.key, this.onSubmit});
-
   static final FocusNode textFieldFocusNode = FocusNode();
+
+  const AmountTextField({super.key, this.initialValue, this.onSubmit});
+
+  final double? initialValue;
   final Function(String)? onSubmit;
 
   @override
@@ -75,6 +90,12 @@ class AmountTextField extends ConsumerStatefulWidget {
 
 class _AmountTextFieldState extends ConsumerState<AmountTextField> {
   final textController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialValue != null) textController.text = '${widget.initialValue}€';
+  }
 
   @override
   void dispose() {
@@ -115,9 +136,11 @@ class _AmountTextFieldState extends ConsumerState<AmountTextField> {
 }
 
 class DropDownRow extends ConsumerWidget {
-  const DropDownRow({super.key, this.onCategorySelected, this.onPaymentSelected});
+  const DropDownRow({super.key, this.initialCategory, this.initialPaymentMethod, this.onCategorySelected, this.onPaymentSelected});
 
+  final Category? initialCategory;
   final Function(int)? onCategorySelected;
+  final PaymentMethod? initialPaymentMethod;
   final Function(int)? onPaymentSelected;
 
   @override
@@ -134,6 +157,7 @@ class DropDownRow extends ConsumerWidget {
             data: (categories) {
               return Flexible(
                   child: RoundedDropdown(
+                    initialValue: initialCategory,
                 items: categories ?? [],
                 onSelected: (id) => onCategorySelected?.call(id),
                 description: 'Category',
@@ -145,11 +169,13 @@ class DropDownRow extends ConsumerWidget {
             data: (methods) {
               return Flexible(
                   child: RoundedDropdown(
-                    items: methods ?? [],
-                    onSelected: (id) => onPaymentSelected?.call(id),
-                    description: 'Payment Methods',
-                  ));
-            }),],
+                    initialValue: initialPaymentMethod,
+                items: methods ?? [],
+                onSelected: (id) => onPaymentSelected?.call(id),
+                description: 'Payment Methods',
+              ));
+            }),
+      ],
     );
   }
 }

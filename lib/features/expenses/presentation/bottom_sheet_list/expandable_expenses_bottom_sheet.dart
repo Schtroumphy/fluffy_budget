@@ -1,4 +1,7 @@
+import 'package:fluffy_budget/core/constants.dart';
+import 'package:fluffy_budget/features/expenses/presentation/add_expense/add_expense_bottom_sheet.dart';
 import 'package:fluffy_budget/features/expenses/presentation/bottom_sheet_list/expense_list_provider.dart';
+import 'package:fluffy_budget/router/router.dart';
 import 'package:fluffy_budget/widgets/molecules/expense_tile.dart';
 import 'package:fluffy_budget/widgets/space.dart';
 import 'package:flutter/material.dart';
@@ -76,8 +79,11 @@ class _ExpendableBottomSheetState extends ConsumerState<ExpendableBottomSheet> {
               child: CustomScrollView(
                 controller: scrollController,
                 slivers: [
-                  const SliverToBoxAdapter(
-                    child: Center(child: Text('DERNIÈRES TRANSACTIONS',)),
+                  SliverToBoxAdapter(
+                    child: Center(
+                        child: Text(
+                      StringConstants.lastTransactions.toUpperCase(),
+                    )),
                   ),
                   const SliverToBoxAdapter(
                     child: VSpace(28),
@@ -89,7 +95,16 @@ class _ExpendableBottomSheetState extends ConsumerState<ExpendableBottomSheet> {
                           if (data == null || data.isEmpty) {
                             return const SizedBox.shrink();
                           }
-                          return ExpenseTile(expenseModel: data[index]);
+
+                          final expense = data[index];
+
+                          return InkWell(
+                            onTap: () {
+                              ref.read(displayFabButtonNotifierProvider.notifier).hideFab();
+                              displayAddExpenseModal(context, expense: expense, ref: ref);
+                            },
+                            child: ExpenseTile(expenseModel: expense),
+                          );
                         },
                         childCount: data?.length ?? 0,
                       ),

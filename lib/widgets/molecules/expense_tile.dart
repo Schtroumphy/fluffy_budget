@@ -29,10 +29,13 @@ class ExpenseTile extends StatelessWidget {
             const HSpace(Insets.i6),
             Expanded(
                 child: Text(
-              description ?? noDescription,
+              description ?? StringConstants.noDescription,
               style: TextStyles.noDataGray,
             )),
-            Text("${expenseModel.amount}€", style: TextStyles.interM,)
+            Text(
+              "${expenseModel.amount}€",
+              style: TextStyles.interM,
+            )
           ],
         ),
       ),
