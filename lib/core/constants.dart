@@ -7,6 +7,10 @@ import 'package:flutter/material.dart';
 class StringConstants {
 
   static const noDescription = "No description";
+  static const categoryText = "Category";
+  static const paymentMethodText = "Payment Method";
+  static const expensesText = "Expenses";
+  static const addExpenseHint = "0.00";
   static const lastTransactions ="Dernières transactions";
 
 }

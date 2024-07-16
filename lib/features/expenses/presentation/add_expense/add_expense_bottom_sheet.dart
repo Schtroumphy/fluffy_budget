@@ -1,3 +1,4 @@
+import 'package:fluffy_budget/core/constants.dart';
 import 'package:fluffy_budget/core/extensions/duration_extensions.dart';
 import 'package:fluffy_budget/features/expenses/domain/category.dart';
 import 'package:fluffy_budget/features/expenses/domain/expense.dart';
@@ -65,7 +66,7 @@ class _AddExpenseBottomSheetState extends ConsumerState<AddExpenseBottomSheet> {
             ),
             gapV12,
             Text(
-              "Expenses",
+              StringConstants.expensesText,
               style: theme.labelMedium?.copyWith(color: AppColor.black[40], fontStyle: FontStyle.italic),
             ),
             gapV12,
@@ -133,7 +134,7 @@ class _AmountTextFieldState extends ConsumerState<AmountTextField> {
           decoration: const InputDecoration(
             border: OutlineInputBorder(borderSide: BorderSide.none),
             suffix: Icon(Icons.euro_rounded),
-            hintText: '0.00',
+            hintText: StringConstants.addExpenseHint,
           ),
           style: theme.bodyLarge?.copyWith(
             fontSize: Insets.i56,
@@ -173,7 +174,7 @@ class DropDownRow extends ConsumerWidget {
                 initialValue: initialCategory,
                 items: categories ?? [],
                 onSelected: (id) => onCategorySelected?.call(id),
-                description: 'Category',
+                description: StringConstants.categoryText,
               ));
             }),
         gapH12,
@@ -185,7 +186,7 @@ class DropDownRow extends ConsumerWidget {
                 initialValue: initialPaymentMethod,
                 items: methods ?? [],
                 onSelected: (id) => onPaymentSelected?.call(id),
-                description: 'Payment Methods',
+                description: StringConstants.paymentMethodText,
               ));
             }),
       ],
