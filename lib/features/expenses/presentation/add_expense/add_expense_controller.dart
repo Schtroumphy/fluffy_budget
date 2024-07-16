@@ -23,26 +23,37 @@ class AddExpenseController extends _$AddExpenseController {
     return Expense.init();
   }
 
+  void setExpense([ExpenseModel? expense]) {
+    state = state.copyWith(
+      id: expense?.id,
+      categoryId: expense?.category?.id,
+      paymentId: expense?.paymentMethod?.id,
+    );
+  }
+
   void onPaymentMethodSelected(int paymentMethodId) {
+    if (paymentMethodId == state.paymentId) return;
+
     state = state.copyWith(
       paymentId: paymentMethodId,
     );
   }
 
   void onCategorySelected(int categoryId) {
+    if (categoryId == state.categoryId) return;
+
     state = state.copyWith(
-        categoryId: categoryId,
+      categoryId: categoryId,
     );
   }
 
-  onAmountSubmitted(double amount) async {
+  onSubmitted(double amount) async {
+    if (amount == 0.0) return;
+
     state = state.copyWith(
-        amount: amount,
+      amount: amount,
     );
     await ref.read(expenseRepoProvider).save(state);
     ref.invalidate(expenseModelListProvider);
   }
-
 }
-
-

@@ -1,3 +1,4 @@
+import 'package:fluffy_budget/core/extensions/duration_extensions.dart';
 import 'package:fluffy_budget/features/expenses/domain/category.dart';
 import 'package:fluffy_budget/features/expenses/domain/expense.dart';
 import 'package:fluffy_budget/features/expenses/domain/payment_method.dart';
@@ -26,13 +27,25 @@ Future<void> displayAddExpenseModal(BuildContext context, {ExpenseModel? expense
   });
 }
 
-class AddExpenseBottomSheet extends ConsumerWidget {
+class AddExpenseBottomSheet extends ConsumerStatefulWidget {
   const AddExpenseBottomSheet({super.key, this.expense});
 
   final ExpenseModel? expense;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AddExpenseBottomSheet> createState() => _AddExpenseBottomSheetState();
+}
+
+class _AddExpenseBottomSheetState extends ConsumerState<AddExpenseBottomSheet> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(0.seconds, () => //
+        ref.read(addExpenseControllerProvider.notifier).setExpense(widget.expense));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
     final controller = ref.read(addExpenseControllerProvider.notifier);
 
@@ -45,9 +58,9 @@ class AddExpenseBottomSheet extends ConsumerWidget {
             const CloseSheetBar(),
             gapV12,
             DropDownRow(
-              initialCategory: expense?.category,
+              initialCategory: widget.expense?.category,
               onCategorySelected: (id) => controller.onCategorySelected(id),
-              initialPaymentMethod: expense?.paymentMethod,
+              initialPaymentMethod: widget.expense?.paymentMethod,
               onPaymentSelected: (id) => controller.onPaymentMethodSelected(id),
             ),
             gapV12,
@@ -56,7 +69,7 @@ class AddExpenseBottomSheet extends ConsumerWidget {
               style: theme.labelMedium?.copyWith(color: AppColor.black[40], fontStyle: FontStyle.italic),
             ),
             gapV12,
-            AmountTextField(initialValue: expense?.amount, onSubmit: (amount) => _onSubmit(amount, controller, context)),
+            AmountTextField(initialValue: widget.expense?.amount, onSubmit: (amount) => _onSubmit(amount, controller, context)),
           ],
         ),
       ),
@@ -68,7 +81,7 @@ class AddExpenseBottomSheet extends ConsumerWidget {
     if (amountParsed == null) {
       return;
     }
-    controller.onAmountSubmitted(amountParsed);
+    controller.onSubmitted(amountParsed);
 
     if (!context.mounted) return;
 
@@ -94,7 +107,7 @@ class _AmountTextFieldState extends ConsumerState<AmountTextField> {
   @override
   void initState() {
     super.initState();
-    if (widget.initialValue != null) textController.text = '${widget.initialValue}€';
+    if (widget.initialValue != null) textController.text = '${widget.initialValue}';
   }
 
   @override
@@ -157,7 +170,7 @@ class DropDownRow extends ConsumerWidget {
             data: (categories) {
               return Flexible(
                   child: RoundedDropdown(
-                    initialValue: initialCategory,
+                initialValue: initialCategory,
                 items: categories ?? [],
                 onSelected: (id) => onCategorySelected?.call(id),
                 description: 'Category',
@@ -169,7 +182,7 @@ class DropDownRow extends ConsumerWidget {
             data: (methods) {
               return Flexible(
                   child: RoundedDropdown(
-                    initialValue: initialPaymentMethod,
+                initialValue: initialPaymentMethod,
                 items: methods ?? [],
                 onSelected: (id) => onPaymentSelected?.call(id),
                 description: 'Payment Methods',

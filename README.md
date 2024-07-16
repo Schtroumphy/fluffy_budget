@@ -22,5 +22,5 @@ $ fvm flutter run -t lib/main_dev.dart --flavor dev
 ## TODO 
 - Add constant file to centralized all strings
 - Add linter (riverpod, dart)
-- Create ExpenseModel to retrieve Category as object to have info like color & icon thanks to join table with sql request 
-- Display expense with icon/color of category
+
+- Delete expense on swipe
