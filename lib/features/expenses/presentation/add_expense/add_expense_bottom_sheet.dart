@@ -38,40 +38,50 @@ class AddExpenseBottomSheet extends ConsumerStatefulWidget {
 }
 
 class _AddExpenseBottomSheetState extends ConsumerState<AddExpenseBottomSheet> {
+  late ExpenseController controller;
+
   @override
   void initState() {
     super.initState();
-    Future.delayed(0.seconds, () => //
-        ref.read(expenseControllerProvider.notifier).setExpense(widget.expense));
+    controller = ref.read(expenseControllerProvider.notifier);
+
+    if (widget.expense != null) {
+      Future.delayed(
+          0.seconds,
+          () => //
+              controller.setExpense(widget.expense));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-    final controller = ref.read(expenseControllerProvider.notifier);
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const CloseSheetBar(),
-            gapV12,
-            DropDownRow(
-              initialCategory: widget.expense?.category,
-              onCategorySelected: (id) => controller.onCategorySelected(id),
-              initialPaymentMethod: widget.expense?.paymentMethod,
-              onPaymentSelected: (id) => controller.onPaymentMethodSelected(id),
-            ),
-            gapV12,
-            Text(
-              StringConstants.expensesText,
-              style: theme.labelMedium?.copyWith(color: AppColor.black[40], fontStyle: FontStyle.italic),
-            ),
-            gapV12,
-            AmountTextField(initialValue: widget.expense?.amount, onSubmit: (amount) => _onSubmit(amount, controller, context)),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const CloseSheetBar(),
+              gapV12,
+              DropDownRow(
+                controller: controller,
+                initialCategory: widget.expense?.category,
+                onCategorySelected: (id) => controller.onCategorySelected(id),
+                initialPaymentMethod: widget.expense?.paymentMethod,
+                onPaymentSelected: (id) => controller.onPaymentMethodSelected(id),
+              ),
+              gapV12,
+              Text(
+                StringConstants.expensesText,
+                style: theme.labelMedium?.copyWith(color: AppColor.black[40], fontStyle: FontStyle.italic),
+              ),
+              gapV12,
+              AmountTextField(initialValue: widget.expense?.amount, onSubmit: (amount) => _onSubmit(amount, controller, context)),
+            ],
+          ),
         ),
       ),
     );
@@ -150,12 +160,13 @@ class _AmountTextFieldState extends ConsumerState<AmountTextField> {
 }
 
 class DropDownRow extends ConsumerWidget {
-  const DropDownRow({super.key, this.initialCategory, this.initialPaymentMethod, this.onCategorySelected, this.onPaymentSelected});
+  const DropDownRow({super.key, this.initialCategory, this.initialPaymentMethod, this.onCategorySelected, this.onPaymentSelected, this.controller});
 
   final Category? initialCategory;
   final Function(int)? onCategorySelected;
   final PaymentMethod? initialPaymentMethod;
   final Function(int)? onPaymentSelected;
+  final ExpenseController? controller;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -189,6 +200,20 @@ class DropDownRow extends ConsumerWidget {
                 description: StringConstants.paymentMethodText,
               ));
             }),
+        gapH12,
+        IconButton(
+          icon: const Icon(Icons.calendar_month_outlined),
+          onPressed: () async {
+            final selectedDate = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime(2024),
+              lastDate: DateTime.now().add(7.days),
+            );
+
+            controller?.setDate(selectedDate);
+          },
+        )
       ],
     );
   }

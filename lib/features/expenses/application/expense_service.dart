@@ -39,6 +39,7 @@ class ExpenseService {
       final res = expenses
           ?.map((e) => ExpenseModel(
                 id: e.id,
+                date: e.date,
                 amount: e.amount,
                 category: e.categoryId == null ? null : categories?.firstWhere((c) => c.id == e.categoryId),
                 paymentMethod: e.paymentId == null ? null : methods?.firstWhere((c) => c.id == e.paymentId),

@@ -33,7 +33,7 @@ class ExpenseDao extends Dao<Expense> {
   @override
   Future<void> save(Expense model) {
     final json = model.toJson();
-    if(json['id'] == null) json.remove('id');
+    if(json['id'] == -1) json.remove('id');
     return withDatabase((db) => db.insert(tableName, json, conflictAlgorithm: ConflictAlgorithm.replace));
   }
 }

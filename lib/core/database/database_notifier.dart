@@ -9,7 +9,7 @@ part 'database_notifier.g.dart';
 class DatabaseNotifier extends _$DatabaseNotifier {
   static const defaultPath = 'fluffy_budget.db';
   static const versionKey = 'versionKey';
-  static const version = 1;
+  static const version = 2;
 
   DatabaseNotifier([this._path = defaultPath]);
 
@@ -56,10 +56,11 @@ class DatabaseNotifier extends _$DatabaseNotifier {
 
 
   Future<void> migrate(Database db, int oldVersion, int newVersion) async {
-    await db.execute(''' 
+    if(oldVersion < 2) {
+      await db.execute(''' 
      DROP TABLE IF EXISTS category
     ''');
-    await db.execute('''
+      await db.execute('''
         CREATE TABLE category (
           id             INTEGER PRIMARY KEY AUTOINCREMENT,
           label          TEXT,
@@ -68,10 +69,10 @@ class DatabaseNotifier extends _$DatabaseNotifier {
         )
     ''');
 
-    await db.execute(''' 
+      await db.execute(''' 
      DROP TABLE IF EXISTS payment_method
     ''');
-    await db.execute('''
+      await db.execute('''
         CREATE TABLE payment_method (
           id             INTEGER PRIMARY KEY AUTOINCREMENT,
           label          TEXT,
@@ -80,10 +81,10 @@ class DatabaseNotifier extends _$DatabaseNotifier {
         )
     ''');
 
-    await db.execute(''' 
+      await db.execute(''' 
      DROP TABLE IF EXISTS expense
     ''');
-    await db.execute('''
+      await db.execute('''
         CREATE TABLE expense (
           id              INTEGER PRIMARY KEY AUTOINCREMENT,
           amount          REAL,
@@ -91,5 +92,24 @@ class DatabaseNotifier extends _$DatabaseNotifier {
           categoryId      INTEGER
         )
     ''');
+      oldVersion = 2;
+    }
+
+    if(oldVersion < 3) {
+      await db.execute(''' 
+     DROP TABLE IF EXISTS expense
+    ''');
+      await db.execute('''
+        CREATE TABLE expense (
+          id              INTEGER PRIMARY KEY AUTOINCREMENT,
+          amount          REAL,
+          date            TEXT,
+          paymentId       INTEGER,
+          categoryId      INTEGER
+        )
+    ''');
+
+      oldVersion = 3;
+    }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:fluffy_budget/core/constants.dart';
+import 'package:fluffy_budget/core/extensions/date_extension.dart';
 import 'package:fluffy_budget/core/theme/app_theme.dart';
 import 'package:fluffy_budget/features/expenses/presentation/add_expense/expense_controller.dart';
 import 'package:fluffy_budget/widgets/space.dart';
@@ -44,6 +45,12 @@ class ExpenseTile extends ConsumerWidget {
                 color: expenseModel.category?.color,
               ),
               const HSpace(Insets.i6),
+              Flexible(
+                  child: Text(
+                    expenseModel.date.dM,
+                    style: TextStyles.quickM,
+                  )),
+              const HSpace(Insets.i4),
               Expanded(
                   child: Text(
                 description ?? StringConstants.noDescription,

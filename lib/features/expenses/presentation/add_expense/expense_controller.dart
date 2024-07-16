@@ -60,4 +60,10 @@ class ExpenseController extends _$ExpenseController {
   deleteById(int id) async {
     await ref.read(expenseRepoProvider).deleteById(id);
   }
+
+  void setDate(DateTime? selectedDate) {
+    state = state.copyWith(
+      date: selectedDate,
+    );
+  }
 }
