@@ -16,6 +16,10 @@ abstract class Dao<T> {
     return withDatabase((db) => db.transaction(callback));
   }
 
+  Future<List<Map<String, Object?>>> rawQuery(String sql, [List<Object?>? arguments]) {
+    return withDatabase((db) => db.rawQuery(sql, arguments));
+  }
+
   /* ----------- CONVERSION ----------- */
 
   Map<String, dynamic> toEntity(T model);

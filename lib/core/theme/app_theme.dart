@@ -45,6 +45,12 @@ class TextStyles {
     color: Colors.black,
   );
 
+  static final noDataGray = GoogleFonts.quicksand(
+    fontSize: TextSize.m,
+    color: Colors.grey,
+    fontStyle: FontStyle.italic
+  );
+
   static final interM = GoogleFonts.inter(
     fontSize: TextSize.m,
     color: Colors.black,

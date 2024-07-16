@@ -9,4 +9,10 @@ Future<List<Expense>?> expenseList(ExpenseListRef ref) {
   return ref.watch(expenseServiceProvider).fetchAllExpenses();
 }
 
+@riverpod
+Future<List<ExpenseModel>?> expenseModelList(ExpenseModelListRef ref) {
+  final service = ref.read(expenseServiceProvider);
+  return service.fetchAllExpenseModels();
+}
+
 

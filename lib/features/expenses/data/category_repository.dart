@@ -1,7 +1,6 @@
 import 'package:fluffy_budget/core/constants.dart';
 import 'package:fluffy_budget/features/expenses/data/local/category_dao.dart';
 import 'package:fluffy_budget/features/expenses/domain/category.dart';
-import 'package:fluffy_budget/features/expenses/domain/expense_property.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -28,8 +27,8 @@ class CategoryRepository {
     await ref.read(categoryDaoProvider).saveAll(expenseCategories.toList());
   }
 
-  Future<List<ExpenseProperty>?> getAll() async {
+  Future<List<Category>?> getAll() async {
     final categoryDao = ref.read(categoryDaoProvider);
-    return (await categoryDao.getAll()) as List<ExpenseProperty>;
+    return await categoryDao.getAll();
   }
 }

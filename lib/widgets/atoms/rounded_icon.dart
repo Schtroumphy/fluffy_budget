@@ -2,18 +2,21 @@ import 'package:fluffy_budget/core/theme/app_style.dart';
 import 'package:flutter/material.dart';
 
 class RoundedIcon extends StatelessWidget {
-  const RoundedIcon({super.key});
+  const RoundedIcon({super.key, this.color, this.icon});
+
+  final Color? color;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
-    return const DecoratedBox(
+    return DecoratedBox(
       decoration: BoxDecoration(
-        color: Colors.red,
-        borderRadius: BorderRadius.all(Radius.circular(Insets.i12)),
+        color: color ?? Colors.grey,
+        borderRadius: const BorderRadius.all(Radius.circular(Insets.i12)),
       ),
       child: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Icon(Icons.money),
+        padding: const EdgeInsets.all(Insets.i8),
+        child: Icon(icon ?? Icons.money),
       ),
     );
   }

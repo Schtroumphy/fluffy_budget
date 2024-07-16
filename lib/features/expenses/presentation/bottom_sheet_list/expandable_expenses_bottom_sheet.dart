@@ -48,7 +48,7 @@ class _ExpendableBottomSheetState extends ConsumerState<ExpendableBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final expenses = ref.watch(expenseListProvider);
+    final expenseModels = ref.watch(expenseModelListProvider);
 
     return Scaffold(
       body: DraggableScrollableSheet(
@@ -62,7 +62,7 @@ class _ExpendableBottomSheetState extends ConsumerState<ExpendableBottomSheet> {
         builder: (BuildContext context, ScrollController scrollController) {
           return DecoratedBox(
             decoration: const BoxDecoration(
-              color: Colors.blue,
+              color: Colors.white,
               boxShadow: [
                 BoxShadow(color: Colors.black),
               ],
@@ -77,19 +77,19 @@ class _ExpendableBottomSheetState extends ConsumerState<ExpendableBottomSheet> {
                 controller: scrollController,
                 slivers: [
                   const SliverToBoxAdapter(
-                    child: Text('TRANSACTIONS LIST'),
+                    child: Center(child: Text('DERNIÈRES TRANSACTIONS',)),
                   ),
                   const SliverToBoxAdapter(
                     child: VSpace(28),
                   ),
-                  expenses.when(
+                  expenseModels.when(
                     data: (data) => SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
                           if (data == null || data.isEmpty) {
                             return const SizedBox.shrink();
                           }
-                          return ExpenseTile(expense: data[index]);
+                          return ExpenseTile(expenseModel: data[index]);
                         },
                         childCount: data?.length ?? 0,
                       ),

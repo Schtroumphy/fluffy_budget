@@ -59,3 +59,5 @@ const Set<PaymentMethod> paymentMethods = {
     color: AppColor.purple,
   ),
 };
+
+const noDescription = "No description";

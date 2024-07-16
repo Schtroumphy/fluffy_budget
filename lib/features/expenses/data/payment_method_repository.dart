@@ -1,5 +1,4 @@
 import 'package:fluffy_budget/core/constants.dart';
-import 'package:fluffy_budget/features/expenses/domain/expense_property.dart';
 import 'package:fluffy_budget/features/expenses/domain/payment_method.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -30,9 +29,8 @@ class PaymentMethodRepository {
     await ref.read(paymentMethodDaoProvider).saveAll(paymentMethods);
   }
 
-  Future<List<ExpenseProperty>?> getAll() async {
+  Future<List<PaymentMethod>?> getAll() async {
     final paymentMethodDao = ref.read(paymentMethodDaoProvider);
-    final res = (await paymentMethodDao.getAll());
-    return res  as List<ExpenseProperty>;
+    return await paymentMethodDao.getAll();
   }
 }

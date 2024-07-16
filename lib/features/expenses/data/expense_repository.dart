@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'expense_repository.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 ExpenseRepository expenseRepo(ExpenseRepoRef ref){
   return ExpenseRepository(ref);
 }
@@ -20,7 +20,7 @@ class ExpenseRepository {
   }
 
   Future<List<Expense>?> getAll() async {
-    final expenseDao = ref.read(expenseDaoProvider);
+    final expenseDao = ref.watch(expenseDaoProvider);
     return (await expenseDao.getAll());
   }
 }

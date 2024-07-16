@@ -1,3 +1,5 @@
+import 'package:fluffy_budget/features/expenses/domain/category.dart';
+import 'package:fluffy_budget/features/expenses/domain/payment_method.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'expense.g.dart';
@@ -44,8 +46,8 @@ class Expense {
 class ExpenseModel {
   final int id;
   final double amount;
-  final int? categoryIconCodePoint;
-  final int? paymentIconCodePoint;
+  final Category? category;
+  final PaymentMethod? paymentMethod;
 
-  ExpenseModel(this.id, this.amount, this.categoryIconCodePoint, this.paymentIconCodePoint);
+  ExpenseModel({required this.id, required this.amount, this.category, this.paymentMethod});
 }
