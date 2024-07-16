@@ -6,7 +6,7 @@ import 'package:fluffy_budget/features/expenses/domain/expense_property.dart';
 import 'package:fluffy_budget/features/expenses/presentation/bottom_sheet_list/expense_list_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'add_expense_controller.g.dart';
+part 'expense_controller.g.dart';
 
 final categoriesProvider = FutureProvider.autoDispose<List<Category>?>((ref) {
   return ref.watch(expenseServiceProvider).fetchAllCategories();
@@ -17,7 +17,7 @@ final paymentMethodsProvider = FutureProvider.autoDispose<List<ExpenseProperty>?
 });
 
 @riverpod
-class AddExpenseController extends _$AddExpenseController {
+class ExpenseController extends _$ExpenseController {
   @override
   Expense build() {
     return Expense.init();
@@ -55,5 +55,9 @@ class AddExpenseController extends _$AddExpenseController {
     );
     await ref.read(expenseRepoProvider).save(state);
     ref.invalidate(expenseModelListProvider);
+  }
+
+  deleteById(int id) async {
+    await ref.read(expenseRepoProvider).deleteById(id);
   }
 }

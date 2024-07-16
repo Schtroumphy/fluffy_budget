@@ -23,4 +23,8 @@ class ExpenseRepository {
     final expenseDao = ref.watch(expenseDaoProvider);
     return (await expenseDao.getAll());
   }
+
+  Future<void> deleteById(int id) async {
+    return await ref.read(expenseDaoProvider).delete('id = ?', ['$id']);
+  }
 }

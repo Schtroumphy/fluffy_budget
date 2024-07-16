@@ -3,7 +3,7 @@ import 'package:fluffy_budget/core/extensions/duration_extensions.dart';
 import 'package:fluffy_budget/features/expenses/domain/category.dart';
 import 'package:fluffy_budget/features/expenses/domain/expense.dart';
 import 'package:fluffy_budget/features/expenses/domain/payment_method.dart';
-import 'package:fluffy_budget/features/expenses/presentation/add_expense/add_expense_controller.dart';
+import 'package:fluffy_budget/features/expenses/presentation/add_expense/expense_controller.dart';
 import 'package:fluffy_budget/router/router.dart';
 import 'package:fluffy_budget/widgets/async_value_widget.dart';
 import 'package:fluffy_budget/widgets/space.dart';
@@ -42,13 +42,13 @@ class _AddExpenseBottomSheetState extends ConsumerState<AddExpenseBottomSheet> {
   void initState() {
     super.initState();
     Future.delayed(0.seconds, () => //
-        ref.read(addExpenseControllerProvider.notifier).setExpense(widget.expense));
+        ref.read(expenseControllerProvider.notifier).setExpense(widget.expense));
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-    final controller = ref.read(addExpenseControllerProvider.notifier);
+    final controller = ref.read(expenseControllerProvider.notifier);
 
     return Scaffold(
       body: Padding(
@@ -77,7 +77,7 @@ class _AddExpenseBottomSheetState extends ConsumerState<AddExpenseBottomSheet> {
     );
   }
 
-  _onSubmit(String amount, AddExpenseController controller, BuildContext context) {
+  _onSubmit(String amount, ExpenseController controller, BuildContext context) {
     final amountParsed = double.tryParse(amount.replaceAll(",", "."));
     if (amountParsed == null) {
       return;
