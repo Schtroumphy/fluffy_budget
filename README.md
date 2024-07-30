@@ -22,5 +22,6 @@ $ fvm flutter run -t lib/main_dev.dart --flavor dev
 ## TODO 
 - Add constant file to centralized all strings
 - Add linter (riverpod, dart)
-
-- Delete expense on swipe
+- Add chart to see expense amount by month 
+- Design dashboard 
+- 
